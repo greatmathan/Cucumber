@@ -1,0 +1,79 @@
+package StepDef;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.testng.Assert;
+
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+
+public class LoginStep   {
+
+	WebDriver Driver;
+	
+	@Given("User should navigate to the application")
+	public void userShouldNavigateToTheApplication() {
+		System.setProperty("webdriver.edge.driver", "./Driver/msedgedriver.exe");
+				Driver =new EdgeDriver();
+				Driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+				Driver.manage().window().maximize();
+				Driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	   
+		
+	}
+
+	@Given("User Clicks on the login links")
+	public void userClicksOnTheLoginLinks() {
+	    
+	}
+
+	@Given("User Enter The Name As {string}")
+	public void userEnterTheNameAs(String string) {
+		Driver.findElement(By.name("username")).sendKeys("Admin");
+	}
+	    
+	
+
+	@Given("User Should Enter The Password as {string}")
+	public void userShouldEnterThePasswordAs(String string) {
+		Driver.findElement(By.name("password")).sendKeys("admin123");
+	
+	}
+
+	@When("User Clicks The Login button")
+	public void userClicksTheLoginButton() {
+		Driver.findElement(By.xpath("//button[@type='submit']")).click();   
+	}
+
+	@Then("Login Should be sucess")
+	public void loginShouldBeSucess() {
+	   
+	}
+
+	@Given("User Enter The username As {string}")
+	public void userEnterTheUsernameAs(String string) {
+		Driver.findElement(By.name("username")).sendKeys("Admink");
+	}
+
+	@Given("User Should Enter The Passwordnegative as {string}")
+	public void userShouldEnterThePasswordnegativeAs(String string) {
+		Driver.findElement(By.name("password")).sendKeys("admin1234");
+	}
+
+	@When("Login Should be Failed")
+	public void loginShouldBeFailed() {
+		Driver.findElement(By.xpath("//button[@type='submit']")).click();
+		String Errormsg=Driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div/div[1]/div/div[2]/div[2]/div/div[1]/div[1]/p")).getText();
+	  Assert.assertEquals(Errormsg, "Invalid credentials"); 
+	//  Driver.quit();
+	    
+	}
+
+
+
+
+}
